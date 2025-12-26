@@ -1,143 +1,18 @@
-# 🗄️ SQLite Migration Guide
+# 🗄️ SQLite Database Guide
 
-## 📌 Tổng quan
+## 📌 Tại sao SQLite?
 
-Hướng dẫn chuyển đổi hệ thống từ CSV sang SQLite database để cải thiện hiệu suất và độ tin cậy.
-
----
-
-## 🎯 Lợi ích của SQLite
-
-✅ **Hiệu suất tốt hơn**: Indexing, query optimization
-✅ **Thread-safe**: Nhiều process có thể truy cập đồng thời
-✅ **ACID compliance**: Đảm bảo tính toàn vẹn dữ liệu
-✅ **Dễ query**: SQL thay vì pandas filtering
-✅ **Không cần server**: SQLite là file-based database
+✅ **Hiệu suất**: Indexing, query optimization  
+✅ **Thread-safe**: Nhiều process truy cập cùng lúc  
+✅ **ACID compliance**: Đảm bảo tính toàn vẹn dữ liệu  
+✅ **Dễ query**: SQL thay vì pandas filtering  
+✅ **Không cần server**: File-based database  
 
 ---
 
-## 📁 Cấu trúc mới
+## 🚀 Khởi chạy nhanh
 
-```
-iot_ai_gateway/
-├── database/
-│   ├── db_config.py              # Database configuration & helpers
-│   ├── migrate_csv_to_db.py      # Migration script
-│   └── iot_data.db               # SQLite database file (auto-created)
-│
-├── gateway/
-│   ├── gateway_full_model.py     # Original (CSV-based)
-│   └── gateway_sqlite.py         # NEW: SQLite version
-│
-└── dashboard/
-    ├── app.py                     # Original (CSV-based)
-    └── app_sqlite.py              # NEW: SQLite version
-```
-
----
-
-## 🚀 Hướng dẫn từng bước
-
-### **Bước 1: Cài đặt thư viện (nếu cần)**
-
-SQLite đã có sẵn trong Python, nhưng cần thêm `tqdm` cho progress bar:
-
-```powershell
-pip install tqdm
-```
-
-### **Bước 2: Khởi tạo database**
-
-```powershell
-cd database
-python db_config.py
-```
-
-**Output:**
-
-```
-✅ Database initialized at: D:\...\database\iot_data.db
-📊 Database Info:
-   Total records: 0
-   First record: None
-   Last record: None
-   Size: 0.02 MB
-```
-
-### **Bước 3: Migrate dữ liệu CSV cũ (nếu có)**
-
-```powershell
-python migrate_csv_to_db.py
-```
-
-**Output:**
-
-```
-🔄 Starting migration from CSV to SQLite...
-📂 Reading CSV: D:\...\dashboard\data_log.csv
-   Found 1234 records
-
-💾 Inserting data into SQLite...
-Migrating: 100%|████████████| 1234/1234 [00:05<00:00, 245.67it/s]
-
-✅ Migration completed!
-   Success: 1234
-   Failed: 0
-
-📊 Database Statistics:
-   Total records: 1234
-   Database size: 0.15 MB
-   Time range: 2025-11-20 10:00:00 → 2025-12-04 15:30:00
-```
-
-### **Bước 4: Chạy Gateway với SQLite**
-
-```powershell
-cd ..\gateway
-python gateway_sqlite.py
-```
-
-**Output:**
-
-```
-🔧 Initializing database...
-✅ Database initialized at: D:\...\database\iot_data.db
-🚀 Gateway is running... waiting for MQTT data
-💾 Data will be saved to SQLite database
-
-===========================
-📡 RAW Sensor: {...}
-⚠ Sensor Risk: Safe
-🤖 Prediction 6h: {...} | Pred Risk: Safe
-🚨 FINAL RISK: Safe
-===========================
-💾 Saved to database (ID: 1235)
-```
-
-### **Bước 5: Chạy Dashboard với SQLite**
-
-Mở terminal mới:
-
-```powershell
-cd dashboard
-streamlit run app_sqlite.py
-```
-
-Dashboard sẽ tự động đọc dữ liệu từ SQLite database.
-
----
-
-## 🔍 So sánh CSV vs SQLite
-
-| Tính năng             | CSV (Cũ)             | SQLite (Mới)           |
-| --------------------- | -------------------- | ---------------------- |
-| **Ghi dữ liệu**       | Append to file       | INSERT với transaction |
-| **Đọc dữ liệu**       | Load toàn bộ file    | Query theo điều kiện   |
-| **Concurrent access** | ❌ Race condition    | ✅ Thread-safe         |
-| **Query phức tạp**    | ❌ Cần pandas filter | ✅ SQL queries         |
-| **Indexing**          | ❌ Không có          | ✅ B-tree indexes      |
-| **Backup**            | Copy file            | Export hoặc copy .db   |
-| **Size**              | Lớn (text-based)     | Nhỏ hơn (binary)       |
+**Xem [QUICKSTART.md](QUICKSTART.md)**
 
 ---
 
@@ -161,7 +36,6 @@ CREATE TABLE sensor_logs (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- Indexes for performance
 CREATE INDEX idx_timestamp ON sensor_logs(timestamp DESC);
 CREATE INDEX idx_status ON sensor_logs(status);
 CREATE INDEX idx_created_at ON sensor_logs(created_at DESC);
@@ -169,35 +43,51 @@ CREATE INDEX idx_created_at ON sensor_logs(created_at DESC);
 
 ---
 
-## 🛠️ Các chức năng database
+## 🛠️ Sử dụng trong code
 
-### **1. Lấy dữ liệu mới nhất**
-
+### Lấy dữ liệu mới nhất
 ```python
 from database.db_config import get_latest_data
 
 df = get_latest_data(limit=100)  # 100 records gần nhất
 ```
 
-### **2. Lấy dữ liệu theo khoảng thời gian**
-
+### Lấy theo khoảng thời gian
 ```python
 from database.db_config import get_data_by_timerange
 
 df = get_data_by_timerange('2025-12-01', '2025-12-04')
 ```
 
-### **3. Lấy dữ liệu 24h gần nhất**
-
+### Lấy 24h gần nhất
 ```python
 from database.db_config import get_latest_24h
 
 df = get_latest_24h()
 ```
 
-### **4. Thống kê rủi ro**
+---
 
-```python
+## 📈 So sánh CSV vs SQLite
+
+| Tính năng | CSV | SQLite |
+|-----------|-----|--------|
+| Ghi dữ liệu | Append | INSERT + transaction |
+| Đọc dữ liệu | Load toàn bộ | Query điều kiện |
+| Concurrent | ❌ | ✅ |
+| SQL queries | ❌ | ✅ |
+| Indexing | ❌ | ✅ |
+| Size | Lớn | -30-50% |
+
+---
+
+## 📁 Files
+
+- `db_config.py`: Database config & helper functions
+- `migrate_csv_to_db.py`: Migration từ CSV
+- `test_database.py`: Test script
+- `benchmark.py`: So sánh hiệu suất
+- `iot_data.db`: Database (auto-created)
 from database.db_config import get_risk_statistics
 
 stats = get_risk_statistics()

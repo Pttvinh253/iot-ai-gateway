@@ -1,53 +1,43 @@
-# 🚀 Quick Start - SQLite Migration
+# 🚀 SQLite Quick Start
 
-## Các bước thực hiện nhanh:
+## 3 bước chạy nhanh:
 
-### 1. Test database (5 giây)
-
+### 1️⃣ Test database
 ```powershell
 cd database
 python test_database.py
 ```
 
-### 2. Migrate dữ liệu cũ (nếu có)
-
-```powershell
-python migrate_csv_to_db.py
-```
-
-### 3. Chạy gateway mới
-
+### 2️⃣ Chạy Gateway (SQLite)
 ```powershell
 cd ..\gateway
 python gateway_sqlite.py
 ```
 
-### 4. Chạy dashboard mới (terminal mới)
-
+### 3️⃣ Chạy Dashboard (terminal mới)
 ```powershell
 cd dashboard
 streamlit run app_sqlite.py
 ```
 
-## ✅ Xong! Hệ thống đã dùng SQLite
+✅ **Done!** Hệ thống sử dụng SQLite
 
 ---
 
-## 📊 So sánh nhanh
+## 📊 CSV vs SQLite
 
-|                  | CSV (Cũ) | SQLite (Mới)         |
-| ---------------- | -------- | -------------------- |
-| **Tốc độ ghi**   | Chậm     | ⚡ Nhanh hơn 3-5x    |
-| **Tốc độ query** | Rất chậm | ⚡ Nhanh hơn 10-100x |
-| **Thread-safe**  | ❌       | ✅                   |
-| **File size**    | Lớn      | Nhỏ hơn 30-50%       |
+| Tính năng | CSV | SQLite |
+|-----------|-----|--------|
+| Tốc độ ghi | Chậm | ⚡ Nhanh 3-5x |
+| Tốc độ đọc | Rất chậm | ⚡ Nhanh 10-100x |
+| Thread-safe | ❌ | ✅ |
+| Dung lượng | Lớn | -30-50% |
 
 ---
 
-## 🔧 Commands hữu ích
+## 🔧 Các lệnh hữu ích
 
-```powershell
-# Xem thông tin database
+Xem chi tiết tại [README_SQLITE.md](README_SQLITE.md)
 python -c "from database.db_config import get_table_info; print(get_table_info())"
 
 # Export sang CSV

@@ -1,0 +1,62 @@
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Database (temporary/runtime files only)
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Logs
+logs/*.log
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+
+# CSV data files (keep training/test data, ignore runtime logs)
+dashboard/data_log.csv
+dashboard/export_data.csv
+logs/predictions.csv
+
+
+# Streamlit
+.streamlit/secrets.toml

@@ -1,0 +1,10 @@
+paho-mqtt
+pandas
+numpy
+joblib
+xgboost
+streamlit
+plotly
+scikit-learn
+fpdf2
+python-dotenv

@@ -360,8 +360,6 @@ Sử dụng Gmail SMTP:
 
 ## 📝 Phân công công việc 
 
-Điền thông tin thành viên và tỷ lệ đóng góp vào bảng dưới đây.
-
 | STT | MSSV     | Họ và tên             | Công việc phụ trách                                                       | Tỷ lệ (%) |
 |:---:|:--------:|:----------------------|:--------------------------------------------------------------------------|:---------:|
 | 1   | 22521680 | Phạm Thị Thanh Vinh   | Mô phỏng và xử lý dữ liệu, thiết kế IoT, logic AI, dashboard, chạy demo  |   100%    |

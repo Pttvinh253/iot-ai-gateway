@@ -90,12 +90,6 @@ iot_ai_gateway/
 │   ├── trainIoT.py            # Training script
 │   └── make_test.py           # Test data generator
 │
-├── 📂 ML_test/                # ML Testing & Conversion
-│   ├── trainIoT.py            # ML training test
-│   ├── convert.py             # Model conversion
-│   ├── tilapia_wq.csv         # Training dataset
-│   └── test_data_for_simulation.csv
-│
 ├── 📂 esp32_mqtt_sim/         # ESP32 Arduino Code
 │   └── esp32_mqtt_sim.ino     # Firmware simulator
 │
